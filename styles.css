@@ -1,0 +1,1832 @@
+@import url('https://fonts.googleapis.com/css2?family=Lora:wght@700&display=swap');
+/* Estilos generales */
+/* Añade esto al inicio de tu CSS */
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #ffdfdf; /* Rosa pastel */
+    min-height: 100vh;
+    background-attachment: fixed; /* Fijo para que no se mueva */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* Contenedor principal que envuelve todas las secciones */
+.contenedor-principal {
+    background-color: transparent !important;
+    box-shadow: none !important;
+}
+
+/* Ajustes para móviles */
+@media (max-width: 768px) {
+    body {
+        background-attachment: scroll; /* Desactiva fixed en móviles */
+        background-size: 100% auto; /* Ajusta mejor en móviles */
+    }
+    
+    .contenedor-principal {
+        width: 100%;
+        max-width: none;
+        background-color: rgba(255, 255, 255, 0.85); /* Más opaco en móviles */
+    }
+    
+    /* Asegura que las secciones ocupen todo el ancho */
+.tarjeta-victoriana, 
+.tarjeta-victoriana-agradecimiento,
+.tarjeta-victoriana-ubicacion,
+.tarjeta-victoriana-vestimenta,
+.tarjeta-victoriana-confirmacion,
+.tarjeta-victoriana-galeria {
+    padding: 50px 30px !important; /* Mismo padding para todas */
+}
+}
+
+/* Ajuste para dispositivos móviles */
+@media (max-width: 768px) {
+    .tarjeta-victoriana,
+    .tarjeta-victoriana-agradecimiento,
+    .tarjeta-victoriana-ubicacion,
+    .tarjeta-victoriana-vestimenta,
+    .tarjeta-victoriana-confirmacion,
+    .tarjeta-victoriana-galeria {
+        padding: 30px 20px !important; /* Padding reducido para móviles */
+    }
+}
+
+/* Eliminar cualquier padding adicional en las secciones */
+.seccion {
+    padding: 0 !important;
+}
+
+/* Asegurar que el contenido interno tenga márgenes consistentes */
+.contenido-agradecimiento,
+.contenido-ubicacion,
+.contenido-vestimenta,
+.contenido-confirmacion,
+.galeria-container,
+.contenedor-musica {
+    margin: 0 auto; /* Centrado sin márgenes adicionales */
+}
+
+/* Primera sección - borde superior */
+.seccion:first-child .tarjeta-victoriana {
+    border-top-left-radius: 5px !important;
+    border-top-right-radius: 5px !important;
+    border-top: 1px solid #e8d9c5 !important;
+}
+
+/* Última sección - borde inferior */
+.seccion:last-child .tarjeta-victoriana {
+    border-bottom-left-radius: 5px !important;
+    border-bottom-right-radius: 5px !important;
+    border-bottom: 1px solid #e8d9c5 !important;
+}
+
+/* Efecto de cascada con sombras internas */
+.contenedor-principal {
+    perspective: 1000px;
+}
+
+.seccion {
+    transform-style: preserve-3d;
+    transition: all 0.8s ease;
+    opacity: 0;
+    transform: translateY(20px) rotateX(-5deg);
+}
+
+.seccion.visible {
+    opacity: 1;
+    transform: translateY(0) rotateX(0);
+}
+
+/* Ajuste para el efecto de aparición */
+@keyframes aparecer {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.seccion:nth-child(1) { transition-delay: 0.1s; }
+.seccion:nth-child(2) { transition-delay: 0.2s; }
+.seccion:nth-child(3) { transition-delay: 0.3s; }
+.seccion:nth-child(4) { transition-delay: 0.4s; }
+.seccion:nth-child(5) { transition-delay: 0.5s; }
+.seccion:nth-child(6) { transition-delay: 0.6s; }
+
+/* Corrección especial para iOS */
+@supports (-webkit-touch-callout: none) {
+    body {
+        background-attachment: scroll;
+    }
+}
+
+/* Portada - Versión móvil optimizada */
+.portada {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #facbcb url('rosegold.jpg') no-repeat center center;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    transition: opacity 0.8s ease-out;
+}
+
+.sobre-container {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.sobre-wrapper {
+    position: relative;
+    width: 90vmin;
+    height: 90vmin;
+    max-width: 550px;
+    max-height: 550px;
+    min-width: 450px;
+    min-height: 450px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    animation: flotar 3s ease-in-out infinite alternate;
+}
+
+.sobre {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: all 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+    filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.4));
+}
+/* Estilos para los sobres */
+.sobre-cerrado, .sobre-abierto {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: all 0.7s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+.sobre-cerrado {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+    z-index: 2;
+}
+
+.sobre-abierto {
+    opacity: 0;
+    transform: scale(1.1) rotate(5deg);
+    z-index: 1;
+}
+
+/* Estilo para el destello */
+.flash {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    opacity: 0;
+    z-index: 999;
+    pointer-events: none;
+    transition: opacity 0.3s ease-out;
+}
+
+/* Contenedor principal */
+#invitacion {
+    display: none;
+    opacity: 0;
+}
+
+/* Portada */
+#portada {
+    transition: opacity 0.5s ease-out;
+}
+
+.instruccion {
+    font-family: 'Great Vibes', cursive;
+    color: #ffffff;
+    font-size: 2.2rem;
+    text-shadow: 1px 1px 3px rgba(69, 69, 69, 0.3),
+                 0 0 5px rgba(255, 255, 255, 0.3);
+    text-align: center;
+    margin-top: 10px;
+    line-height: 1.2;
+    max-width: 80%;
+}
+
+/* Efecto de destello */
+.destello {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.9);
+    z-index: 9999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 1s ease-out;
+}
+
+.destello.active {
+    opacity: 1;
+}
+
+/* Animación de flotar más suave */
+@keyframes flotar {
+    0% { transform: translateY(0px); }
+    100% { transform: translateY(-15px); }
+}
+
+/* Efecto al tocar el sobre */
+.sobre-wrapper:active {
+    transform: scale(0.95);
+}
+
+/* Media queries para ajustes específicos */
+@media (max-width: 768px) {
+    .sobre-wrapper {
+        width: 85vmin;
+        height: 85vmin;
+    }
+    
+    .instruccion {
+        font-size: 3rem;
+        max-width: 90%;
+    }
+}
+
+@media (max-width: 480px) {
+    .sobre-wrapper {
+        width: 95vmin;
+        height: 95vmin;
+        max-width: 320px;
+        max-height: 320px;
+    }
+    
+    .instruccion {
+        font-size: 3rem;
+    }
+}
+
+
+
+/* Invitación (inicialmente oculta) */
+.invitacion {
+    display: none;
+    opacity: 0;
+    background-color: #f9f5f0;
+    background-image: url('fondo.png');
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+/* Estilos del contenido */
+.header {
+    text-align: center;
+    padding: 40px 20px;
+    background: rgba(255, 255, 255, 0.88);
+    margin-bottom: 30px;
+}
+
+.titulo-principal {
+    font-family: 'Cinzel Decorative', cursive;
+    font-size: 2.5rem;
+    color: #5d3a2e;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3),
+                 0 0 10px rgba(189, 148, 114, 0.4);
+}
+
+.subtitulo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    font-weight: 300;
+    color: #7a5c50;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2),
+                 0 0 5px rgba(189, 148, 114, 0.3);
+}
+
+.contenido {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 20px 50px;
+}
+
+.seccion {
+    margin-bottom: 40px;
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.88);
+    border: 1px solid #e0d6cc;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.seccion.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.titulo-seccion {
+    font-family: 'Cinzel Decorative', cursive;
+    font-size: 1.8rem;
+    color: #5d3a2e;
+    margin-top: 0;
+    border-bottom: 1px solid #e0d6cc;
+    padding-bottom: 10px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2),
+                 0 0 5px rgba(93, 58, 46, 0.3);
+}
+
+.texto-seccion {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    text-shadow: 0.5px 0.5px 1px rgba(0, 0, 0, 0.1);
+}
+
+.destacado {
+    font-weight: 500;
+    color: #5d3a2e;
+}
+
+.saludo, .despedida {
+    font-size: 1.2rem;
+    font-style: italic;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.15);
+}
+
+.firma {
+    margin-top: 30px;
+    font-style: italic;
+}
+
+.nombre {
+    font-family: 'Cinzel Decorative', cursive;
+    font-size: 1.5rem;
+    color: #5d3a2e;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2),
+                 0 0 8px rgba(93, 58, 46, 0.4);
+}
+
+.footer {
+    text-align: center;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.8);
+    font-size: 0.9rem;
+    color: #7a5c50;
+    text-shadow: 0.5px 0.5px 1px rgba(0, 0, 0, 0.1);
+}
+
+/* Nueva sección de imagen a pantalla completa */
+.seccion-fullscreen {
+    width: 100%;
+    height: 100vh;
+    margin: 10;
+    padding: 10;
+    overflow: hidden;
+    position: relative;
+}
+
+.imagen-fullscreen {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+/* Sección de música */
+/* Estilos para el reproductor musical */
+/* Estilos para la sección de música */
+.seccion-musica {
+    padding: 30px 10px;
+    text-align: center;
+}
+
+.contenedor-musica {
+    max-width: 645px;
+    margin: 0 auto;
+    background: #fffefc;
+    border: 1px solid #e8d9c5;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    position: relative;
+}
+
+/* Efecto de pergamino para consistencia */
+.contenedor-musica::before {
+    content: "";
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    border: 1px solid rgba(139, 90, 43, 0.1);
+    border-radius: 4px;
+    pointer-events: none;
+}
+
+.imagen-musica {
+    width: 100%;
+    border-radius: 6px;
+    border: 8px rgba(0,0,0,0.012);;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.01);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.imagen-musica:hover {
+    transform: scale(1.02);
+    box-shadow: 0 5px 12px rgba(0,0,0,0.1);
+}
+
+.texto-reproductor {
+    font-family: 'Cinzel Decorative', cursive;
+    font-size: 1.4rem;
+    color: #5d3a2e;
+    margin: 20px 0;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+/* Adornos para mantener el estilo */
+.adorno-musica {
+    width: 80%;
+    max-width: 400px;
+    margin: 20px auto;
+    opacity: 0.7;
+}
+
+.linea-elegante {
+    width: 80%;
+    max-width: 400px;
+    height: auto;
+    margin: 20px auto;
+    display: block;
+    opacity: 0.7;
+}
+
+/* Estilos para aplicar a otras secciones */
+.seccion {
+    background: #fff5ee;
+    border: 1px solid #e8d9c5;
+    margin-bottom: 30px;
+    position: relative;
+    padding-bottom: 40px; /* Espacio para la línea */
+}
+
+.seccion::after {
+    content: "";
+    display: block;
+    width: 80%;
+    max-width: 400px;
+    height: 1px;
+    background: url('linea-decorativa-removebg-preview.png') center no-repeat;
+    background-size: contain;
+    margin: 30px auto 0;
+    opacity: 0.7;
+}
+
+/* Animaciones */
+@keyframes flotar {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-15px); }
+    100% { transform: translateY(0px); }
+}
+
+/* Efecto de destello */
+.flash {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    z-index: 9999;
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .titulo-principal {
+        font-size: 2rem;
+    }
+    
+    .subtitulo {
+        font-size: 1.2rem;
+    }
+    
+    .seccion {
+        padding: 20px;
+    }
+    
+    .sobre-wrapper {
+        width: 250px;
+        height: 250px;
+    }
+}
+
+@media (max-width: 480px) {
+    .titulo-principal {
+        font-size: 1.8rem;
+    }
+    
+    .instruccion {
+        font-size: 1rem;
+    }
+    
+    .sobre-wrapper {
+        width: 200px;
+        height: 200px;
+    }
+}
+
+/* Animaciones generales */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Clase para aplicar a las secciones */
+.section-animate {
+    opacity: 0;
+    animation-fill-mode: both;
+}
+
+/* Configuración específica para cada sección */
+.seccion-agradecimiento,
+.seccion-contador-fullscreen,
+.seccion-ubicacion-estilizada,
+.seccion-vestimenta,
+.seccion-confirmacion,
+.seccion-galeria {
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+/* Efectos personalizados para algunas secciones */
+.seccion-contador-fullscreen {
+    transform: translateY(20px);
+}
+
+.tarjeta-victoriana {
+    transform: scale(0.98);
+    transition: transform 0.8s ease, opacity 0.8s ease;
+}
+
+/* Estilos para la sección de agradecimiento */
+/* Sección de agradecimiento - Estilo consistente con regalos */
+.seccion-agradecimiento {
+    padding: 20px 30px;
+    text-align: center;
+}
+
+.contenedor-agradecimiento {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.tarjeta-victoriana-agradecimiento {
+    background: #fffefc;
+    border: 1px solid #e8d9c5;
+    padding: 40px 30px;
+    position: relative;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    margin-top: 20px;
+    border-radius: 5px;
+}
+
+.contenido-agradecimiento {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    color: #5a4a42;
+}
+
+.agradecimiento-item {
+    display: flex;
+    align-items: center;
+    text-align: left;
+    gap: 20px;
+    margin: 25px 0;
+}
+
+.icono-agradecimiento {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.texto-agradecimiento h4 {
+    font-family: 'Cinzel Decorative', cursive;
+    font-size: 1.4rem;
+    color: #8b5a2b;
+    margin: 0 0 2px 0;
+}
+
+.texto-agradecimiento p {
+    margin: 0;
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+.separador-decorativo{
+    height: 1px;
+    background: linear-gradient(to right, transparent, #68615a, transparent);
+    margin: 25px 30px;
+}
+
+/* Efecto de pergamino */
+.tarjeta-victoriana-agradecimiento::before {
+    content: "";
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    border: 1px solid rgba(139, 90, 43, 0.1);
+    pointer-events: none;
+    border-radius: 3px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .agradecimiento-item {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+    }
+    
+    
+    
+    .icono-agradecimiento {
+        width: 70px;
+        height: 70px;
+    }
+    
+    .texto-agradecimiento {
+        text-align: center;
+    }
+}
+
+/* Estilos para los nombres de los padres */
+/* Estilos para los nombres con caligrafía especial */
+.caligrafia-especial {
+    font-family: 'Great Vibes', cursive;
+    font-size: 1.8rem;
+    color: #8b5a2b;
+    line-height: 1.2;
+    margin: 10px 0;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+    letter-spacing: 1px;
+}
+
+.nombres-padres {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin: 15px 0;
+    position: relative;
+}
+
+.nombres-padres:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+}
+
+.separador-decorativo{
+    height: 1px;
+    background: linear-gradient(to right, transparent, #68615a, transparent);
+    margin: 25px 30px;
+}
+
+.texto-padres {
+    margin-top: 2px;
+    font-family: 'Cormorant Garamond', serif;
+    color: #5a4a42;
+    padding-top: 15px;
+    font-size: 1.1rem;
+    margin: 0;
+}
+
+/* Ajustes para móvil */
+@media (max-width: 768px) {
+    .caligrafia-especial {
+        font-size: 1.5rem;
+        text-align: center;
+    }
+    
+    .nombres-padres {
+        padding-left: 0;
+        align-items: center;
+    }
+   
+    .nombres-padres:before {
+        display: none;
+    }
+
+    .separador-decorativo {
+        margin: 20px 10px;
+    }
+}
+
+/* Estilos del Contador Victoriano */
+.contador-victoriano {
+    background: url('contador.jpg') no-repeat center center;
+    background-size: cover;
+    padding: 80px 20px;
+    position: relative;
+    text-align: center;
+    color: #f8f1e9;
+}
+
+.marco-contador {
+    max-width: 1000px;
+    margin: 0 auto;
+    border-radius: 10px;
+    padding: 60px 30px;
+    position: relative;
+    overflow: hidden;
+}
+
+.marco-contador::before {
+    content: "";
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    border: 1px solid rgba(232, 217, 197, 0);
+    border-radius: 5px;
+    pointer-events: none;
+}
+
+.titulo-contador {
+    font-family: 'Cinzel Decorative', cursive;
+    font-size: 2.2rem;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    letter-spacing: 1px;
+}
+
+.subtitulo-contador {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    font-style: italic;
+    margin-bottom: 30px;
+    color: #e8d9c5;
+}
+
+.contador-elegante {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin: 40px 0;
+}
+
+.item-tiempo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 100px;
+}
+
+.numero {
+    font-family: 'Great Vibes', cursive;
+    font-size: 5rem;
+    line-height: 1;
+    color: #f8f1e9;
+    text-shadow: 3px 3px 6px rgba(0,0,0,0.4);
+    margin-bottom: 5px;
+    position: relative;
+}
+
+.numero::after {
+    content: "";
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    height: 2px;
+    background: linear-gradient(to right, transparent, #e8d9c5, transparent);
+}
+
+.etiqueta {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem;
+    font-weight: 500;
+    letter-spacing: 1px;
+    color: #e8d9c5;
+    text-transform: uppercase;
+    margin-top: 10px;
+}
+
+.separador {
+    font-family: 'Great Vibes', cursive;
+    font-size: 4rem;
+    color: #f8f1e9;
+    position: relative;
+    top: -15px;
+    opacity: 0.8;
+}
+
+.mensaje-contador {
+    font-family: 'Great Vibes', cursive;
+    font-size: 5rem;
+    margin-top: 20px;
+    letter-spacing: 1px;
+    color: #f8f1e9;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .contador-victoriano {
+        padding: 60px 15px;
+    }
+    
+    .titulo-contador {
+        font-size: 1.8rem;
+    }
+    
+    .subtitulo-contador {
+        font-size: 1.3rem;
+    }
+    
+    .contador-elegante {
+        flex-wrap: wrap;
+        gap: 10px;
+        margin: 30px 0;
+    }
+    
+    .item-tiempo {
+        min-width: 30px;
+    }
+    
+    .numero {
+        font-size: 3.5rem;
+    }
+    
+    .etiqueta {
+        font-size: 1rem;
+    }
+    
+    .separador {
+        font-size: 2.5rem;
+        top: -8px;
+    }
+    
+    .mensaje-contador {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .item-tiempo {
+        min-width: 60px;
+    }
+    
+    .numero {
+        font-size: 2.8rem;
+    }
+    
+    .etiqueta {
+        font-size: 0.9rem;
+    }
+    
+    .separador {
+        font-size: 2rem;
+        top: -5px;
+    }
+}
+
+/* Estilos para la sección de ubicación */
+/* Estilos para la sección de ubicación estilizada */
+.seccion-ubicacion-estilizada {
+    padding: 10px 20px;
+    text-align: center;
+}
+
+.contenedor-ubicacion-estilizado {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.titulo-seccion-estilizado {
+    font-family: 'Cinzel Decorative', cursive;
+    font-size: 2rem;
+    color: #8b5a2b;
+    margin-bottom: 20px;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+.tarjeta-victoriana-ubicacion {
+    background: #fffefc;
+    border: 1px solid #e8d9c5;
+    padding: 40px 30px;
+    position: relative;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    margin-top: 20px;
+}
+
+.adorno-superior, .adorno-inferior {
+    margin: 0 auto;
+    width: 80%;
+}
+
+.adorno-superior img {
+    width: 100%;
+    max-width: 400px;
+    margin-bottom: 20px;
+}
+
+.adorno-inferior img {
+    width: 100%;
+    max-width: 500px;
+    margin-top: 30px;
+    opacity: 0.8;
+    transform: rotate(180deg);
+}
+
+.contenido-ubicacion {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    color: #8b5a2b;
+}
+
+.item-ubicacion {
+    margin: 25px 0;
+}
+
+.icono-dorado {
+    width: 80px;
+    height: 80px;
+    margin-right: 20px;
+    opacity: 0.9;
+}
+
+.texto-ubicacion h4 {
+    font-family: 'Cinzel Decorative', cursive;
+    font-size: 1.4rem;
+    color: #8b5a2b;
+    margin: 0 0 5px 0;
+}
+
+.texto-ubicacion p {
+    margin: 5px 0;
+    font-size: 1.1rem;
+}
+
+.destacado {
+    font-weight: 600;
+    color: #8b5a2b;
+    font-style: italic;
+}
+
+.contenedor-boton {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.boton-mapa-estilizado {
+    display: inline-flex;
+    align-items: center;
+    background: #5d3a2e;
+    color: #f8f1e9;
+    padding: 10px 20px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-family: 'Cinzel Decorative', cursive;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    border: 1px solid #8b5a2b;
+    margin-top: 15px;
+}
+
+.boton-mapa-estilizado:hover {
+    background: #8b5a2b;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(139, 90, 43, 0.2);
+}
+
+.icono-mapa {
+    width: 18px;
+    height: 18px;
+    margin-right: 8px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .item-ubicacion {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .icono-dorado {
+        margin-bottom: 15px;
+    }
+    
+    .boton-mapa-estilizado {
+        font-size: 0.9rem;
+        padding: 8px 15px;
+    }
+}
+
+/* Efecto de pergamino */
+.tarjeta-victoriana-ubicacion::before {
+    content: "";
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    border: 1px solid rgba(139, 90, 43, 0.1);
+    pointer-events: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .tarjeta-victoriana-ubicacion {
+        padding: 20px 20px;
+    }
+    
+    .item-ubicacion {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .icono-dorado {
+        margin-right: 0;
+        margin-bottom: 15px;
+    }
+    
+    .separador-decorativo {
+        margin: 20px 10px;
+    }
+}
+
+/* Estilos para la sección de vestimenta */
+.seccion-vestimenta {
+    
+    padding: 10px 20px;
+    text-align: center;
+}
+
+.contenedor-vestimenta {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.tarjeta-victoriana-vestimenta {
+    background: #fffefc;
+    border: 1px solid #e8d9c5;
+    padding: 5px 30px;
+    position: relative;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    margin-top: 20px;
+}
+
+.contenido-vestimenta {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    color: #5a4a42;
+}
+
+.vestimenta-columna {
+    margin: 20px 0;
+}
+
+.vestimenta-item {
+    display: flex;
+    align-items: flex-start;
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.icono-vestimenta {
+    width: 80px;
+    height: 80px;
+    margin-right: 25px;
+    object-fit: contain;
+}
+
+.titulo-vestimenta {
+    font-family: 'Cinzel Decorative', cursive;
+    font-size: 1.5rem;
+    color: #8b5a2b;
+    margin: 0 0 15px 0;
+    padding-bottom: 8px;
+}
+
+.lista-vestimenta {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.lista-vestimenta li {
+    position: relative;
+    padding-left: 25px;
+    margin-bottom: 10px;
+    line-height: 1.5;
+}
+
+.lista-vestimenta li:before {
+    content: "•";
+    color: #8b5a2b;
+    font-size: 1.5rem;
+    position: absolute;
+    left: 0;
+    top: -5px;
+}
+
+.nota-vestimenta {
+    font-style: italic;
+    text-align: center;
+    margin-top: 30px;
+    padding: 15px;
+    background: rgba(139, 90, 43, 0.05);
+    border-radius: 5px;
+    border-left: 3px solid #8b5a2b;
+}
+
+/* Efecto de pergamino */
+.tarjeta-victoriana-vestimenta::before {
+    content: "";
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    border: 1px solid rgba(139, 90, 43, 0.1);
+    pointer-events: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .vestimenta-item {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    
+    .icono-vestimenta {
+        margin-right: 0;
+        margin-bottom: 20px;
+    }
+    
+    .lista-vestimenta li {
+        text-align: left;
+    }
+    
+    .separador-vestimenta {
+        margin: 20px 20px;
+    }
+}
+
+/* Estilos para la sección de confirmación */
+.seccion-confirmacion {
+    padding: 2px 20px;
+    text-align: center;
+}
+
+.contenedor-confirmacion {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.tarjeta-victoriana-confirmacion {
+    background: #fffefc;
+    border: 1px solid #e8d9c5;
+    padding: 40px 30px;
+    position: relative;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    margin-top: 20px;
+}
+
+.texto-confirmacion {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    color: #5a4a42;
+    line-height: 1.7;
+    margin-bottom: 30px;
+}
+
+.boton-whatsapp-container {
+    margin-top: 20px;
+}
+
+.boton-whatsapp {
+    display: inline-flex;
+    align-items: center;
+    background: #25D366;
+    color: white;
+    padding: 12px 25px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-family: 'Cinzel Decorative', cursive;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 3px 10px rgba(37, 211, 102, 0.3);
+}
+
+.boton-whatsapp:hover {
+    background: #128C7E;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(18, 140, 126, 0.4);
+}
+
+.icono-whatsapp {
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+}
+
+/* Efecto de pergamino */
+.tarjeta-victoriana-confirmacion::before {
+    content: "";
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    border: 1px solid rgba(139, 90, 43, 0.1);
+    pointer-events: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .texto-confirmacion {
+        font-size: 1.1rem;
+    }
+    
+    .boton-whatsapp {
+        font-size: 1rem;
+        padding: 10px 20px;
+    }
+}
+
+/* Estilos para la galería victoriana */
+.seccion-galeria {
+    padding: 5px 20px;
+    text-align: center;
+}
+
+.contenedor-galeria {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.tarjeta-victoriana-galeria {
+    background: #fffefc;
+    border: 1px solid #e8d9c5;
+    padding: 40px 30px;
+    position: relative;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    margin-top: 20px;
+}
+
+.texto-galeria {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem;
+    color: #5a4a42;
+    margin-bottom: 30px;
+    font-style: italic;
+    text-align: center;
+}
+
+.grid-galeria {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin: 0 auto;
+}
+
+.marco-foto {
+    position: relative;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    aspect-ratio: 1/1;
+}
+
+.foto-galeria {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.efecto-marco {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 8px solid transparent;
+    background: linear-gradient(135deg, rgba(139,90,43,0.1) 0%, rgba(255,255,255,0) 50%);
+    pointer-events: none;
+    transition: all 0.3s ease;
+}
+
+.marco-foto:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+.marco-foto:hover .foto-galeria {
+    transform: scale(1.05);
+}
+
+.marco-foto:hover .efecto-marco {
+    border-color: rgba(139,90,43,0.2);
+}
+
+.controles-galeria {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 30px;
+}
+
+.boton-galeria {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    border: 1px solid #e8d9c5;
+    background: #f8f1e9;
+    color: #5d3a2e;
+    font-family: 'Cinzel Decorative', cursive;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.boton-galeria.activo, .boton-galeria:hover {
+    background: #5d3a2e;
+    color: #f8f1e9;
+}
+
+/* Efecto de pergamino */
+.tarjeta-victoriana-galeria::before {
+    content: "";
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    border: 1px solid rgba(139, 90, 43, 0.1);
+    pointer-events: none;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .grid-galeria {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 576px) {
+    .grid-galeria {
+        grid-template-columns: 1fr;
+        max-width: 400px;
+    }
+    
+    .tarjeta-victoriana-galeria {
+        padding: 30px 15px;
+    }
+}
+
+@media (max-width: 768px) {
+    .seccion::after {
+        width: 90%;
+    }
+    
+    .seccion {
+        padding: 60px 15px;
+    }
+}
+/* Galería mejorada para móviles */
+.grid-galeria {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin: 0 auto;
+}
+
+.marco-foto {
+    position: relative;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    aspect-ratio: 1/1;
+    cursor: pointer;
+}
+
+.foto-galeria {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+/* Lightbox mejorado */
+.lightbox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.95);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    touch-action: manipulation;
+}
+
+.lightbox.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.lightbox-img {
+    max-width: 95%;
+    max-height: 95%;
+    object-fit: contain;
+    transform: scale(0.95);
+    transition: transform 0.3s ease;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.lightbox.active .lightbox-img {
+    transform: scale(1);
+}
+
+.close-lightbox {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    color: white;
+    font-size: 30px;
+    background: rgba(0,0,0,0.5);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 2001;
+}
+
+/* Efecto al tocar imágenes */
+.marco-foto:active {
+    transform: scale(0.98);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .grid-galeria {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+    
+    .lightbox-img {
+        max-width: 100%;
+        max-height: 80%;
+    }
+}
+
+@media (max-width: 480px) {
+    .grid-galeria {
+        grid-template-columns: 1fr;
+        max-width: 300px;
+    }
+}
+
+/* Estilos para la sección de Lluvia de Sobres */
+.seccion-regalos {
+    padding: 5px 20px;
+    text-align: center;
+}
+
+.contenedor-regalos {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.tarjeta-victoriana-regalos {
+    background: #fffefc;
+    border: 1px solid #e8d9c5;
+    padding: 40px 30px;
+    position: relative;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    margin-top: 20px;
+    border-radius: 5px;
+}
+
+/* Efecto de pergamino */
+.tarjeta-victoriana-regalos::before {
+    content: "";
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    border: 1px solid rgba(139, 90, 43, 0.1);
+    border-radius: 3px;
+    pointer-events: none;
+}
+
+/* Nuevo estilo estático para el sobre de regalos */
+.sobre-regalo {
+    margin: 0 auto 0px;
+    text-align: center;
+}
+
+.icono-sobre-regalo {
+    width: 100px; /* Tamaño reducido */
+    height: auto;
+    opacity: 0.9; /* Ligera transparencia */
+}
+
+.texto-regalos-destacado {
+    font-family: 'Great Vibes', cursive;
+    font-size: 2.2rem;
+    color: #8b5a2b;
+    line-height: 1.3;
+    margin: 0 auto 20px;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+.texto-regalos {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    color: #5a4a42;
+    line-height: 1.7;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.boton-regalo-container {
+    margin: 30px 0;
+    text-align: center;
+}
+
+.boton-regalo {
+    display: inline-flex;
+    align-items: center;
+    background: #25D366;
+    color: white;
+    padding: 12px 25px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-family: 'Cinzel Decorative', cursive;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 3px 10px rgba(37, 211, 102, 0.3);
+    gap: 10px;
+    border: none;
+}
+
+.boton-regalo:hover {
+    background: #128C7E;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(18, 140, 126, 0.4);
+}
+
+.boton-regalo img {
+    width: 24px;
+    height: 24px;
+}
+
+.nota-regalos {
+    font-style: italic;
+    text-align: center;
+    margin-top: 20px;
+    padding: 15px;
+    background: rgba(139, 90, 43, 0.05);
+    border-radius: 5px;
+    border-left: 3px solid #8b5a2b;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    color: #5a4a42;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .tarjeta-victoriana-regalos {
+        padding: 30px 20px;
+    }
+    
+    .texto-regalos-destacado {
+        font-size: 1.8rem;
+    }
+    
+    .texto-regalos {
+        font-size: 1.1rem;
+    }
+    
+    .boton-regalo {
+        font-size: 1rem;
+        padding: 10px 20px;
+    }
+    
+    .sobre-regalo {
+        width: 100px;
+        height: 100px;
+    }
+}
+
+/* Estilos para la imagen Dana en sección música */
+.contenedor-imagen-dana {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+
+/* Ajustes responsive */
+@media (max-width: 768px) {
+    .imagen-dana-musica {
+        width: 180px;
+        border-width: 4px;
+    }
+}
+
+@media (max-width: 480px) {
+    .imagen-dana-musica {
+        width: 150px;
+        border-width: 3px;
+    }
+}
+
+/* Estilos para la imagen fecha en sección agradecimiento */
+.contenedor-imagen-fecha {
+    text-align: center;
+    margin: 20px 0;
+    padding: 0 15px; /* Añade padding para evitar que toque los bordes */
+}
+
+.fecha-agradecimiento {
+    max-width: 100%; /* Asegura que la imagen no exceda el ancho del contenedor */
+    height: auto; /* Mantiene la proporción */
+    display: block; /* Elimina espacio extra debajo de la imagen */
+    margin: 0 auto; /* Centra la imagen */
+}
+
+/* Ajustes responsive */
+@media (max-width: 768px) {
+    .contenedor-imagen-fecha {
+        margin: 15px 0;
+    }
+    
+    .fecha-agradecimiento {
+        max-width: 90%; /* Reduce un poco el tamaño en tablets */
+    }
+}
+
+@media (max-width: 480px) {
+    .contenedor-imagen-fecha {
+        margin: 10px 0;
+        padding: 0 10px;
+    }
+    
+    .fecha-agradecimiento {
+        max-width: 100%; /* Ocupa todo el ancho disponible */
+    }
+}
+/* Estilos para la sección de Texto Bíblico */
+.seccion-texto-biblico {
+    padding: 5px 20px;
+    text-align: center;
+}
+
+.contenedor-texto-biblico {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.tarjeta-victoriana-texto-biblico {
+    background: #fffefc;
+    border: 1px solid #e8d9c5;
+    padding: 40px 30px;
+    position: relative;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    margin-top: 20px;
+    border-radius: 5px;
+}
+
+.contenido-texto-biblico {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: 'Cormorant Garamond', serif;
+    color: #5a4a42;
+}
+
+.icono-texto-biblico {
+    width: 90px;
+    height: 90px;
+    margin-bottom: 25px;
+    opacity: 0.8;
+}
+
+.texto-biblico {
+    text-align: center;
+}
+
+.versiculo {
+    font-size: 1.3rem;
+    line-height: 1.7;
+    font-style: italic;
+    margin-bottom: 15px;
+    color: #5d3a2e;
+}
+
+.referencia {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #8b5a2b;
+    margin-top: 20px;
+}
+
+/* Efecto de pergamino */
+.tarjeta-victoriana-texto-biblico::before {
+    content: "";
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    border: 1px solid rgba(139, 90, 43, 0.1);
+    border-radius: 3px;
+    pointer-events: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .tarjeta-victoriana-texto-biblico {
+        padding: 30px 20px;
+    }
+    
+    .versiculo {
+        font-size: 1.1rem;
+    }
+    
+    .referencia {
+        font-size: 1rem;
+    }
+    
+    .icono-texto-biblico {
+        width: 60px;
+        height: 60px;
+        margin-bottom: 15px;
+    }
+}
